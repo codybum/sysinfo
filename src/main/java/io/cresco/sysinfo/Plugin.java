@@ -65,7 +65,7 @@ public class Plugin implements PluginService {
                 PerfSysMonitor perfSysMonitor = new PerfSysMonitor(pluginBuilder);
                 perfSysMonitor.start();
                 logger.info("Performance System monitoring initialized");
-                
+
                 //set plugin active
                 pluginBuilder.setIsActive(true);
             }

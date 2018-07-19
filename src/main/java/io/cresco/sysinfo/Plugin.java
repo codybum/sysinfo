@@ -27,6 +27,7 @@ public class Plugin implements PluginService {
     private Executor executor;
     private CLogger logger;
     private Map<String,Object> map;
+    private PerfSysMonitor perfSysMonitor;
 
     @Activate
     void activate(BundleContext context, Map<String,Object> map) {
@@ -62,18 +63,27 @@ public class Plugin implements PluginService {
                     Thread.sleep(1000);
                 }
 
-                PerfSysMonitor perfSysMonitor = new PerfSysMonitor(pluginBuilder);
+                //set plugin active
+                pluginBuilder.setIsActive(true);
+
+                perfSysMonitor = new PerfSysMonitor(pluginBuilder);
                 perfSysMonitor.start();
                 logger.info("Performance System monitoring initialized");
 
-                //set plugin active
-                pluginBuilder.setIsActive(true);
             }
             return true;
         } catch(Exception ex) {
             ex.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public boolean isStopped() {
+        perfSysMonitor.stop();
+        pluginBuilder.setExecutor(null);
+        pluginBuilder.setIsActive(false);
+        return true;
     }
 
 

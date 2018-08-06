@@ -58,11 +58,6 @@ public class Plugin implements PluginService {
                 this.executor = new ExecutorImpl(pluginBuilder);
                 pluginBuilder.setExecutor(executor);
 
-                while (!pluginBuilder.getAgentService().getAgentState().isActive()) {
-                    logger.info("Plugin " + pluginBuilder.getPluginID() + " waiting on Agent Init");
-                    Thread.sleep(1000);
-                }
-
                 //set plugin active
                 pluginBuilder.setIsActive(true);
 
